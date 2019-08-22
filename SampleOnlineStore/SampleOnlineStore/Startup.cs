@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SampleOnlineStore.Data;
+using SampleOnlineStore.Data.Repositories;
 
 namespace SampleOnlineStore
 {
@@ -23,9 +26,15 @@ namespace SampleOnlineStore
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 			// In production, the React files will be served from this directory
+			services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
+			services.AddDbContext<ShopContext>(options =>
+				options.UseSqlServer(
+					Configuration.GetConnectionString("DefaultConnection")));
+
 			services.AddSpaStaticFiles(configuration =>
 			{
-				configuration.RootPath = "ClientApp/build";
+				configuration.RootPath = "Frontend/build";
 			});
 		}
 
@@ -56,7 +65,7 @@ namespace SampleOnlineStore
 
 			app.UseSpa(spa =>
 			{
-				spa.Options.SourcePath = "ClientApp";
+				spa.Options.SourcePath = "Frontend";
 
 				if (env.IsDevelopment())
 				{
