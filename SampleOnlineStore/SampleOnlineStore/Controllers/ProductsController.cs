@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SampleOnlineStore.Dtos;
@@ -27,6 +28,7 @@ namespace SampleOnlineStore.Controllers
 			return Ok(productsPage);
         }
 
+		[Authorize]
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> GetProduct(int id)
         {

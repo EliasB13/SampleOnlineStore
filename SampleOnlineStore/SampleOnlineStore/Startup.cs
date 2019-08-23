@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,9 +7,15 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using SampleOnlineStore.Data;
 using SampleOnlineStore.Data.Repositories;
+using SampleOnlineStore.Helpers;
+using SampleOnlineStore.Services.Order;
 using SampleOnlineStore.Services.Products;
+using SampleOnlineStore.Services.Users;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SampleOnlineStore
 {
@@ -28,10 +35,15 @@ namespace SampleOnlineStore
 			services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 			services.AddScoped<IProductsService, ProductsService>();
 			services.AddScoped<IProductsRepository, ProductsRepository>();
+			services.AddScoped<IOrderService, OrderService>();
+			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<IUsersRepository, UsersRepository>();
 
 			services.AddDbContext<ShopContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
+
+			ConfigureJwtAuthorization(services);
 
 			services.AddSpaStaticFiles(configuration =>
 			{
@@ -55,6 +67,8 @@ namespace SampleOnlineStore
 			app.UseStaticFiles();
 			app.UseSpaStaticFiles();
 
+			app.UseAuthentication();
+
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
@@ -72,6 +86,48 @@ namespace SampleOnlineStore
 			//		spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
 			//	}
 			//});
+		}
+
+		private void ConfigureJwtAuthorization(IServiceCollection services)
+		{
+			var jwtSettingsSection = Configuration.GetSection("JwtSettings");
+			services.Configure<JwtSettings>(jwtSettingsSection);
+
+			// configure jwt authentication
+			var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+			var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+			services.AddAuthentication(x =>
+			{
+				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(x =>
+			{
+				x.Events = new JwtBearerEvents
+				{
+					OnTokenValidated = context =>
+					{
+						var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+						var userId = int.Parse(context.Principal.Identity.Name);
+						var user = userService.GetById(userId);
+						if (user == null)
+						{
+							// return unauthorized if user no longer exists
+							context.Fail("Unauthorized");
+						}
+						return Task.CompletedTask;
+					}
+				};
+				x.RequireHttpsMetadata = false;
+				x.SaveToken = true;
+				x.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false
+				};
+			});
 		}
 	}
 }

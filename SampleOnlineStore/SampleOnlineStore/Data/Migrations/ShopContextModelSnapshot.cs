@@ -233,6 +233,8 @@ namespace SampleOnlineStore.Data.Migrations
 
                     b.Property<byte[]>("PasswordHash");
 
+                    b.Property<byte[]>("PasswordSalt");
+
                     b.HasKey("Id");
 
                     b.ToTable("ShopUser");

@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Cart\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Frontend\package-lock.json" />
     <None Include="Frontend\package.json" />
     <None Include="Frontend\public\manifest.json" />

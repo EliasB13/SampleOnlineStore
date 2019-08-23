@@ -10,7 +10,7 @@ using SampleOnlineStore.Data;
 namespace SampleOnlineStore.Data.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20190823072931_init")]
+    [Migration("20190823134627_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,6 +234,8 @@ namespace SampleOnlineStore.Data.Migrations
                     b.Property<string>("Name");
 
                     b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
 
                     b.HasKey("Id");
 
