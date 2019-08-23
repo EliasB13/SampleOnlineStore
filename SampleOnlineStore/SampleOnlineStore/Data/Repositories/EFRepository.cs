@@ -10,7 +10,7 @@ namespace SampleOnlineStore.Data.Repositories
 	public class EfRepository<T> : IAsyncRepository<T> where T : class 
 	{
 		protected readonly ShopContext _dbContext;
-		DbSet<T> _dbSet;
+		protected DbSet<T> _dbSet;
 
 		public EfRepository(ShopContext dbContext)
 		{
@@ -30,7 +30,7 @@ namespace SampleOnlineStore.Data.Repositories
 
 		public async Task<T> AddAsync(T entity)
 		{
-			_dbSet.Add(entity);
+			await _dbSet.AddAsync(entity);
 			await _dbContext.SaveChangesAsync();
 
 			return entity;

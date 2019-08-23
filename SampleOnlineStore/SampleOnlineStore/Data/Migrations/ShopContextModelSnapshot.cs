@@ -31,9 +31,11 @@ namespace SampleOnlineStore.Data.Migrations
 
                     b.Property<string>("ShopUserId");
 
+                    b.Property<int?>("ShopUserId1");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopUserId");
+                    b.HasIndex("ShopUserId1");
 
                     b.ToTable("Orders");
                 });
@@ -221,40 +223,15 @@ namespace SampleOnlineStore.Data.Migrations
 
             modelBuilder.Entity("SampleOnlineStore.Entities.ShopUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("ConcurrencyStamp");
-
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
                     b.Property<string>("Name");
 
-                    b.Property<string>("NormalizedEmail");
-
-                    b.Property<string>("NormalizedUserName");
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName");
+                    b.Property<byte[]>("PasswordHash");
 
                     b.HasKey("Id");
 
@@ -265,7 +242,7 @@ namespace SampleOnlineStore.Data.Migrations
                 {
                     b.HasOne("SampleOnlineStore.Entities.ShopUser", "ShopUser")
                         .WithMany("Orders")
-                        .HasForeignKey("ShopUserId");
+                        .HasForeignKey("ShopUserId1");
                 });
 
             modelBuilder.Entity("SampleOnlineStore.Entities.OrderLine", b =>

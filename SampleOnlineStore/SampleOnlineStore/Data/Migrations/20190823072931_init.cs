@@ -38,23 +38,11 @@ namespace SampleOnlineStore.Data.Migrations
                 name: "ShopUser",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    NormalizedUserName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true)
+                    Address = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -102,14 +90,15 @@ namespace SampleOnlineStore.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OrderDate = table.Column<DateTime>(nullable: false),
                     IsCheckedOut = table.Column<bool>(nullable: false),
-                    ShopUserId = table.Column<string>(nullable: true)
+                    ShopUserId = table.Column<string>(nullable: true),
+                    ShopUserId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_ShopUser_ShopUserId",
-                        column: x => x.ShopUserId,
+                        name: "FK_Orders_ShopUser_ShopUserId1",
+                        column: x => x.ShopUserId1,
                         principalTable: "ShopUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -185,9 +174,9 @@ namespace SampleOnlineStore.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ShopUserId",
+                name: "IX_Orders_ShopUserId1",
                 table: "Orders",
-                column: "ShopUserId");
+                column: "ShopUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_PlatformId",

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace SampleOnlineStore.Entities
 {
-	public class ShopUser : IdentityUser
+	public class ShopUser
 	{
+		public int Id { get; set; }
 		public string Name { get; set; }
 		public string Address { get; set; }
+		public byte[] PasswordHash { get; set; }
 
 		public IEnumerable<Order> Orders { get; set; }
 	}
