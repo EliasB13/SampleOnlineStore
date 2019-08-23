@@ -10,33 +10,28 @@ namespace SampleOnlineStore.Services.Products
 {
 	public class ProductsService : IProductsService
 	{
-		private readonly IAsyncRepository<Product> _productsRepository;
 		private readonly IAsyncRepository<Platform> _platformRepository;
 		private readonly IAsyncRepository<ProductType> _productTypesRepository;
-		private readonly IProductsRepository _pRepo;
+		private readonly IProductsRepository _productsRepository;
 
-		public ProductsService(IAsyncRepository<Product> productRepository, 
-			IAsyncRepository<Platform> platformRepository, 
+		public ProductsService(IAsyncRepository<Platform> platformRepository, 
 			IAsyncRepository<ProductType> productTypesRepository,
-			IProductsRepository r)
+			IProductsRepository productRepository)
 		{
-			_productsRepository = productRepository;
 			_platformRepository = platformRepository;
 			_productTypesRepository = productTypesRepository;
-			_pRepo = r;
+			_productsRepository = productRepository;
 		}
 
 		public async Task<ProductsPageDto> GetAllProductsAsync(int currentPage, int pageSize, int? typeId, int? platformId)
 		{
-			//var productsList = await _productsRepository.ListAllAsync();
-			//var productsListOnPage = productsList.OrderBy(p => p.Id).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-			var productsListOnPage = await _pRepo.GetProductsPage(currentPage, pageSize, platformId, typeId);
-			var totalCount = await _pRepo.CountAsync(platformId, typeId);
+			var productsListOnPage = await _productsRepository.GetProductsPage(currentPage, pageSize, platformId, typeId);
+			var totalCount = await _productsRepository.CountAsync(platformId, typeId);
 
-			foreach (var product in productsListOnPage)
-			{
-				product.ImageUrl = "/img/productsCards/" + product.ImageUrl;
-			}
+			//foreach (var product in productsListOnPage)
+			//{
+			//	product.ImageUrl = "/img/productsCards/" + product.ImageUrl;
+			//}
 
 			var productsPage = new ProductsPageDto()
 			{
@@ -62,9 +57,22 @@ namespace SampleOnlineStore.Services.Products
 			return productsPage;
 		}
 
-		public Task<Product> GetProductByIdAsync()
+		public async Task<ProductDto> GetProductByIdAsync(int id)
 		{
-			throw new NotImplementedException();
+			var product = await _productsRepository.GetProductByIdAsync(id);
+			return new ProductDto()
+			{
+				Id = product.Id,
+				Name = product.Name,
+				Description = product.Description,
+				Genre = product.Genre,
+				Language = product.Language,
+				ImageUrl = product.ImageUrl,
+				Publisher = product.Publisher,
+				Price = product.Price,
+				Platform = product.Platform.Name,
+				ProductType = product.ProductType.Name
+			};
 		}
 
 		private async Task<IEnumerable<Platform>> GetPlatformsAsync()

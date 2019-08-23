@@ -11,5 +11,7 @@ namespace SampleOnlineStore.Data.Repositories
 		Task<List<Product>> GetProductsPage(int currentPage, int pageSize, int? platformId, int? productTypeId);
 
 		Task<int> CountAsync(int? platformId, int? productTypeId);
+
+		Task<Product> GetProductByIdAsync(int id);
 	}
 }

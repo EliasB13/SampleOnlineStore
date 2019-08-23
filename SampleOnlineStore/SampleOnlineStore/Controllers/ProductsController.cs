@@ -28,24 +28,10 @@ namespace SampleOnlineStore.Controllers
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
-            return "value";
-        }
-
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+			var product = await _productsService.GetProductByIdAsync(id);
+			return Ok(product);
         }
     }
 }

@@ -10,6 +10,6 @@ namespace SampleOnlineStore.Services.Products
 	public interface IProductsService
 	{
 		Task<ProductsPageDto> GetAllProductsAsync(int currentPage, int pageSize, int? typeId, int? platformId);
-		Task<Product> GetProductByIdAsync();
+		Task<ProductDto> GetProductByIdAsync(int id);
 	}
 }

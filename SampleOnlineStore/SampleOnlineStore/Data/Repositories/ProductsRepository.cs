@@ -30,5 +30,13 @@ namespace SampleOnlineStore.Data.Repositories
 				.Where(i => (!platformId.HasValue || i.Platform.Id == platformId) && (!productTypeId.HasValue || i.ProductType.Id == productTypeId))
 				.CountAsync();
 		}
+
+		public async Task<Product> GetProductByIdAsync(int id)
+		{
+			return await _dbSet
+				.Include(p => p.Platform)
+				.Include(p => p.ProductType)
+				.SingleOrDefaultAsync(p => p.Id == id);
+		}
 	}
 }
