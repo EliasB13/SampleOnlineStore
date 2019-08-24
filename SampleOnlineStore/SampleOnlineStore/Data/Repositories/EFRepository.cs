@@ -47,5 +47,10 @@ namespace SampleOnlineStore.Data.Repositories
 			_dbSet.Remove(entity);
 			await _dbContext.SaveChangesAsync();
 		}
+
+		public async Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> includeExpression)
+		{
+			return await _dbSet.Where(predicate).Include(includeExpression).ToListAsync();
+		}
 	}
 }

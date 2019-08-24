@@ -29,13 +29,11 @@ namespace SampleOnlineStore.Data.Migrations
 
                     b.Property<DateTime>("OrderDate");
 
-                    b.Property<string>("ShopUserId");
-
-                    b.Property<int?>("ShopUserId1");
+                    b.Property<int>("ShopUserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopUserId1");
+                    b.HasIndex("ShopUserId");
 
                     b.ToTable("Orders");
                 });
@@ -244,7 +242,8 @@ namespace SampleOnlineStore.Data.Migrations
                 {
                     b.HasOne("SampleOnlineStore.Entities.ShopUser", "ShopUser")
                         .WithMany("Orders")
-                        .HasForeignKey("ShopUserId1");
+                        .HasForeignKey("ShopUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SampleOnlineStore.Entities.OrderLine", b =>

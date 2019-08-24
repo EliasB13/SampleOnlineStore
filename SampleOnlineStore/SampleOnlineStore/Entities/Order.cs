@@ -11,7 +11,7 @@ namespace SampleOnlineStore.Entities
 		public DateTime OrderDate { get; set; }
 		public bool IsCheckedOut { get; set; }
 
-		public string ShopUserId { get; set; }
+		public int ShopUserId { get; set; }
 		public virtual ICollection<OrderLine> OrderLines { get; set; }
 		public virtual ShopUser ShopUser { get; set; }
 	}

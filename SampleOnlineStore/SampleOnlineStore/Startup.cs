@@ -105,17 +105,17 @@ namespace SampleOnlineStore
 			{
 				x.Events = new JwtBearerEvents
 				{
-					OnTokenValidated = context =>
+					OnTokenValidated = async context =>
 					{
 						var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
 						var userId = int.Parse(context.Principal.Identity.Name);
-						var user = userService.GetById(userId);
+						var user = await userService.GetById(userId);
 						if (user == null)
 						{
 							// return unauthorized if user no longer exists
 							context.Fail("Unauthorized");
 						}
-						return Task.CompletedTask;
+						await Task.CompletedTask;
 					}
 				};
 				x.RequireHttpsMetadata = false;

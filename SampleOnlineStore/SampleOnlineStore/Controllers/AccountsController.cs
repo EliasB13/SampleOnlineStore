@@ -18,7 +18,7 @@ using SampleOnlineStore.Services.Users;
 namespace SampleOnlineStore.Controllers
 {
 	[Authorize]
-    [Route("api/[controller]")]
+    [Route("account")]
     [ApiController]
     public class AccountsController : ControllerBase
 	{

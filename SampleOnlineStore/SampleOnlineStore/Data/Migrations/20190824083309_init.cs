@@ -91,18 +91,17 @@ namespace SampleOnlineStore.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OrderDate = table.Column<DateTime>(nullable: false),
                     IsCheckedOut = table.Column<bool>(nullable: false),
-                    ShopUserId = table.Column<string>(nullable: true),
-                    ShopUserId1 = table.Column<int>(nullable: true)
+                    ShopUserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_ShopUser_ShopUserId1",
-                        column: x => x.ShopUserId1,
+                        name: "FK_Orders_ShopUser_ShopUserId",
+                        column: x => x.ShopUserId,
                         principalTable: "ShopUser",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,9 +174,9 @@ namespace SampleOnlineStore.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ShopUserId1",
+                name: "IX_Orders_ShopUserId",
                 table: "Orders",
-                column: "ShopUserId1");
+                column: "ShopUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_PlatformId",

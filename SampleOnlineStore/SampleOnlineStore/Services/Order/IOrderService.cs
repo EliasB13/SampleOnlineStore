@@ -8,8 +8,8 @@ namespace SampleOnlineStore.Services.Order
 {
 	public interface IOrderService
 	{
-		Task AddItemToOrder(string userId, int productId, int quantity = 1);
-		Task<OrderDto> GetOrderItemsAsync(string userId);
+		Task AddItemToOrder(int userId, int productId, int quantity = 1);
+		Task<OrderDto> GetOrderItemsAsync(int userId);
 		Task DeleteOrderLine(int orderLineId);
 		Task UpdateQuantity(int orderLineId, int quantity);
 	}

@@ -23,15 +23,12 @@ namespace SampleOnlineStore.Services.Users
 
 			var user = await _usersRepository.GetByNameAsync(username);
 
-			// check if username exists
 			if (user == null)
 				return null;
 
-			// check if password is correct
 			if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
 				return null;
 
-			// authentication successful
 			return user;
 		}
 
