@@ -9,12 +9,22 @@ export default class App extends Component {
   static displayName = App.name;
 
   render () {
-    return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-      </Layout>
-    );
+    const isLogged = true;
+    if (isLogged) {
+      return (
+        <Layout>
+          <Route exact path='/' component={Home} />
+          <Route path='/fetch-data' component={FetchData} />
+        </Layout>
+      );
+    } else {
+      return (
+        <Layout>
+          <Route exact path='/' component={Home} />
+          <Route path='/counter' component={Counter} />
+          <Route path='/fetch-data' component={FetchData} />
+        </Layout>
+      );
+    }
   }
 }

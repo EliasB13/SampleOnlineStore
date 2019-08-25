@@ -63,11 +63,17 @@ namespace SampleOnlineStore
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+			app.UseHttpsRedirection();	
 			app.UseStaticFiles();
 			app.UseSpaStaticFiles();
 
 			app.UseAuthentication();
+
+			app.UseCors(builder => builder
+				.WithOrigins("http://localhost:3000", "http://localhost:8080")
+				.AllowAnyMethod()
+				.AllowAnyHeader()
+				.AllowCredentials());
 
 			app.UseMvc(routes =>
 			{
@@ -86,6 +92,7 @@ namespace SampleOnlineStore
 			//		spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
 			//	}
 			//});
+
 		}
 
 		private void ConfigureJwtAuthorization(IServiceCollection services)
@@ -93,7 +100,6 @@ namespace SampleOnlineStore
 			var jwtSettingsSection = Configuration.GetSection("JwtSettings");
 			services.Configure<JwtSettings>(jwtSettingsSection);
 
-			// configure jwt authentication
 			var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
 			var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
 			services.AddAuthentication(x =>
@@ -112,7 +118,6 @@ namespace SampleOnlineStore
 						var user = await userService.GetById(userId);
 						if (user == null)
 						{
-							// return unauthorized if user no longer exists
 							context.Fail("Unauthorized");
 						}
 						await Task.CompletedTask;

@@ -3,8 +3,8 @@ import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+export class NavMenuLoggedIn extends Component {
+  static displayName = NavMenuLoggedIn.name;
 
   constructor (props) {
     super(props);
@@ -31,10 +31,7 @@ export class NavMenu extends Component {
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/register">Register</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/cart">Cart</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
