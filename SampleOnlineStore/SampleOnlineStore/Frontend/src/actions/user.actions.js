@@ -13,7 +13,7 @@ export const userActions = {
 
 function login(username, password) {
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(request(username));
 
         userService.login(username, password)
             .then(
@@ -28,8 +28,8 @@ function login(username, password) {
             );
     };
 
-    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
+    function request(username) { return { type: userConstants.LOGIN_REQUEST, username } }
+    function success(user) { return { type: userConstants.LOGIN_SUCCESS, username: user.username } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
@@ -40,7 +40,7 @@ function logout() {
 
 function register(username, password) {
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(request());
 
         userService.register(username, password)
             .then(
@@ -56,8 +56,8 @@ function register(username, password) {
             );
     };
 
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function request() { return { type: userConstants.REGISTER_REQUEST } }
+    function success() { return { type: userConstants.REGISTER_SUCCESS } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
 

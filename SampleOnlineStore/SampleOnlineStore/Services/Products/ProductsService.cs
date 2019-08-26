@@ -40,7 +40,8 @@ namespace SampleOnlineStore.Services.Products
 					Id = i.Id,
 					Name = i.Name,
 					ImageUrl = i.ImageUrl,
-					Price = i.Price
+					Price = i.Price,
+					ProductType = i.ProductType.Name
 				}),
 				Platforms = await GetPlatformsAsync(),
 				ProductTypes = await GetProductTypesAsync(),

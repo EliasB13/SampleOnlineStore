@@ -46,7 +46,7 @@ class RegisterPage extends Component {
     }
 
     render() {
-        const { loggingIn } = this.props;
+        const { registering } = this.props;
         const { login, password, submitted, passwordConfirm } = this.state;
 
         return (
@@ -97,7 +97,7 @@ class RegisterPage extends Component {
                         <p>
                             <Link to="/login">Already have account? Sign in.</Link>
                         </p>
-                        { loggingIn ? <Spinner color="dark" />
+                        { registering ? <Spinner color="dark" />
                             : <Button color="primary">Sign Up</Button> }
                     </Form>
                 </div>

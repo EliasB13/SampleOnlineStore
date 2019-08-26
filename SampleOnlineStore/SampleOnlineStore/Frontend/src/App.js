@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Route } from 'react-router';
 import { connect } from 'react-redux';
-import { Home } from './components/Home';
+import { Home } from './components/products/Home';
 import { Cart } from './components/cart/Cart.js';
 import { Container } from 'reactstrap';
 import { NavMenu } from './components/navMenu/NavMenu';
