@@ -25,7 +25,7 @@ class App extends Component {
     render() {
         const { alert } = this.props;
         const { authentication } = this.props;
-        debugger
+        
         return (
             <Router history={history}>
                 <div>

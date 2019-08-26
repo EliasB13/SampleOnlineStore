@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, FormFeedback, Spinner } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import { userActions } from '../../actions'
 
-export class RegisterPage extends Component {
+class RegisterPage extends Component {
 
     constructor(props) {
         super(props);
@@ -35,18 +35,18 @@ export class RegisterPage extends Component {
         this.setState({ passwordConfirm: e.target.value });
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit(event) {
+        event.preventDefault();
 
         this.setState({ submitted: true });
         const { login, password, passwordConfirm } = this.state;
         if (login && password && password === passwordConfirm) {
-            //this.props.login(login, password);
+            this.props.register(login, password);
         }
     }
 
     render() {
-        //const { loggingIn } = this.props;
+        const { loggingIn } = this.props;
         const { login, password, submitted, passwordConfirm } = this.state;
 
         return (
@@ -95,12 +95,25 @@ export class RegisterPage extends Component {
                             <FormFeedback>Password and confirmation don't match</FormFeedback>
                         </FormGroup>
                         <p>
-                            <Link to="/register">Already have account? Sign in.</Link>
+                            <Link to="/login">Already have account? Sign in.</Link>
                         </p>
-                        <Button color="primary">Sign up</Button>
+                        { loggingIn ? <Spinner color="dark" />
+                            : <Button color="primary">Sign Up</Button> }
                     </Form>
                 </div>
             </div>
         );
     }
 }
+
+function mapState(state) {
+    const { registering } = state.registration;
+    return { registering };
+}
+
+const actionCreators = {
+    register: userActions.register
+}
+
+const connectedRegisterPage = connect(mapState, actionCreators)(RegisterPage);
+export { connectedRegisterPage as RegisterPage };

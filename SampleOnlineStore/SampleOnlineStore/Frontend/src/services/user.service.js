@@ -48,11 +48,11 @@ function getById(id) {
     return fetch(`${process.env.REACT_APP_DEFAULT_API_URL}/users/${id}`, requestOptions).then(handleResponse);
 }
 
-function register(user) {
+function register(username, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( { username: user.username, password: user.password })
+        body: JSON.stringify( { username: username, password: password })
     };
 
     return fetch(`${process.env.REACT_APP_DEFAULT_API_URL}/account/register`, requestOptions).then(handleResponse);
