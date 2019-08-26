@@ -70,7 +70,7 @@ namespace SampleOnlineStore
 			app.UseAuthentication();
 
 			app.UseCors(builder => builder
-				.WithOrigins("http://localhost:3000", "http://localhost:8080")
+				.WithOrigins("http://localhost:3000")
 				.AllowAnyMethod()
 				.AllowAnyHeader()
 				.AllowCredentials());
