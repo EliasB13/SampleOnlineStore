@@ -11,51 +11,51 @@ import { history } from './helpers';
 import { alertActions } from './actions';
 import { PrivateRoute } from './helpers/privateRoute';
 
-class App extends Component { 
-  static displayName = App.name;
+class App extends Component {
+    static displayName = App.name;
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    history.listen((location, action) => {
-        this.props.clearAlerts();
-    });
-}
+        history.listen((location, action) => {
+            this.props.clearAlerts();
+        });
+    }
 
-  render () {
-    const { alert } = this.props;
-    const { authentication } = this.props;
-    debugger
-    return (
-      <Router history={ history }>
-        <div>
-          <NavMenu isLogged={ authentication.loggedIn }/>
-          <Container>
-            <div>
-              { alert.message &&
-                <div className={`alert ${alert.type}`}>{alert.message}</div>
-              }
-            </div>
-            <Route exact path='/' component={ Home } />
-            <Route path='/login' component={ LoginPage } />
-            <Route path='/register' component={ RegisterPage } />
-            <PrivateRoute path='/cart' component={ Cart } />
-          </Container>
-        </div>
-      </Router>
-    );
-  }
+    render() {
+        const { alert } = this.props;
+        const { authentication } = this.props;
+        debugger
+        return (
+            <Router history={history}>
+                <div>
+                    <NavMenu isLogged={authentication.loggedIn} />
+                    <Container>
+                        <div>
+                            {alert.message &&
+                                <div className={`alert ${alert.type}`}>{alert.message}</div>
+                            }
+                        </div>
+                        <Route exact path='/' component={Home} />
+                        <Route path='/login' component={LoginPage} />
+                        <Route path='/register' component={RegisterPage} />
+                        <PrivateRoute path='/cart' component={Cart} />
+                    </Container>
+                </div>
+            </Router>
+        );
+    }
 }
 
 function mapState(state) {
-  return {
-    authentication: state.authentication,
-    alert: state.alert
-  };
+    return {
+        authentication: state.authentication,
+        alert: state.alert
+    };
 }
 
 const actionCreators = {
-  clearAlerts: alertActions.clear
+    clearAlerts: alertActions.clear
 };
 
 const connectedApp = connect(mapState, actionCreators)(App);
