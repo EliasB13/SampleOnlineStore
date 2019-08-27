@@ -1,19 +1,23 @@
 import { productsConstants } from '../constants';
 
-export function loadingProducts(state = {}, action) {
+export function loadingProducts(state = { isLoaded: false }, action) {
     switch (action.type) {
         case productsConstants.GET_PRODUCTS_REQUEST:
             return { 
-                isLoadingProducts: true,
+                isLoading: true,
+                isLoaded: false
             };
         case productsConstants.GET_PRODUCTS_SUCCESS:
             return { 
-                isLoadingProducts: false,
+                isLoading: false,
+                isLoaded: true,
                 productsPage: action.productsPage
             };
         case productsConstants.GET_PRODUCTS_FAILURE:
             return { 
-                isLoadingProducts: false 
+                isLoading: false, 
+                isLoaded: false,
+                error: action.error
             };
         default:
             return state;

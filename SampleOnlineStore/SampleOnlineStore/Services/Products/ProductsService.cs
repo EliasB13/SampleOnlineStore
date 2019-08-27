@@ -28,11 +28,6 @@ namespace SampleOnlineStore.Services.Products
 			var productsListOnPage = await _productsRepository.GetProductsPage(currentPage, pageSize, platformId, typeId);
 			var totalCount = await _productsRepository.CountAsync(platformId, typeId);
 
-			//foreach (var product in productsListOnPage)
-			//{
-			//	product.ImageUrl = "/img/productsCards/" + product.ImageUrl;
-			//}
-
 			var productsPage = new ProductsPageDto()
 			{
 				ProductsPageItems = productsListOnPage.Select(i => new ProductsPageItemDto()

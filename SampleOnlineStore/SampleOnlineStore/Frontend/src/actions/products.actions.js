@@ -6,11 +6,11 @@ export const productsActions = {
     getAll
 };
 
-function getAll(page, size) {
+function getAll(page, size, platformId, productTypeId) {
     return dispatch => {
-        dispatch(request(page, size));
+        dispatch(request(page, size, platformId, productTypeId));
 
-        productsService.getAll(page, size)
+        productsService.getAll(page, size, platformId, productTypeId)
             .then(
                 productsPage => dispatch(success(productsPage)),
                 error => {
@@ -20,7 +20,7 @@ function getAll(page, size) {
             );
     }
 
-    function request(page, size) { return { type: productsConstants.GET_PRODUCTS_REQUEST } }
+    function request(page, size, platformId, productTypeId) { return { type: productsConstants.GET_PRODUCTS_REQUEST, page, size, platformId, productTypeId } }
     function success(productsPage) { return { type: productsConstants.GET_PRODUCTS_SUCCESS, productsPage } }
     function failure(error) { return { type: productsConstants.GET_PRODUCTS_FAILURE, error } }
 }
