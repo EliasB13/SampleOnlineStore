@@ -16,7 +16,7 @@ class Product extends Component {
     }
 
     handleSeeMoreClick() {
-        
+        alert('Not implemented yet');
     }
 
     render() {

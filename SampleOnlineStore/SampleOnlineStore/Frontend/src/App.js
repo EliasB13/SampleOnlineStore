@@ -11,6 +11,7 @@ import { history } from './helpers';
 import { alertActions } from './actions';
 import { PrivateRoute } from './helpers/privateRoute';
 import { ProductPage } from './components/products/ProductPage';
+import './App.css';
 
 class App extends Component {
     static displayName = App.name;
@@ -43,6 +44,12 @@ class App extends Component {
                         <Route path='/product/:id' component={ProductPage} />
                         <PrivateRoute path='/cart' component={Cart} />
                     </Container>
+
+                    <footer class="border-top footer text-muted">
+                        <div class="container">
+                            &copy; 2019 - SampleOnlineStore - Made by EliasB
+                        </div>
+                    </footer>
                 </div>
             </Router>
         );

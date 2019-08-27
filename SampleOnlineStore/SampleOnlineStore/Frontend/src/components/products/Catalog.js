@@ -18,7 +18,7 @@ class Catalog extends Component {
             selectedPlatformFilter: -1,
             selectedProductTypeFilter: -1,
             selectedPage: 1,
-            pageSize: 2
+            pageSize: 5
         }
 
         this.props.getAll(this.state.selectedPage, this.state.pageSize);
