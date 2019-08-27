@@ -35,7 +35,18 @@ function addToCart(productId, quantity) {
 
         cartService.addToCart(productId, quantity)
             .then(
-                () => dispatch(success()),
+                () => {
+                    dispatch(success());
+                    dispatch(alertActions.success("Item was added to your cart"));
+
+                    let promise = new Promise((resolve, reject) => {
+
+                        setTimeout(() => {
+                          resolve(dispatch(alertActions.clear()));
+                        }, 3000);
+                      
+                    });
+                },
                 error => {
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
