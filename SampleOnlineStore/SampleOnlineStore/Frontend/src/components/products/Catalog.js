@@ -5,8 +5,8 @@ import { ProductList } from './ProductsList';
 import { Spinner, Label } from 'reactstrap';
 import Select from 'react-select';
 
-class Home extends Component {
-    static displayName = Home.name;
+class Catalog extends Component {
+    static displayName = Catalog.name;
 
     constructor(props) {
         super(props);
@@ -35,7 +35,6 @@ class Home extends Component {
     }
 
     refreshProductsList() {
-        debugger
             this.props.getAll(
                 1, 
                 10, 
@@ -120,5 +119,5 @@ const actionCreators = {
     getAll: productsActions.getAll,
 };
 
-const connectedHome = connect(mapState, actionCreators)(Home);
-export { connectedHome as Home };
+const connectedHome = connect(mapState, actionCreators)(Catalog);
+export { connectedHome as Catalog };

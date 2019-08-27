@@ -25,7 +25,7 @@ function addToCart(productId, quantity) {
         body: JSON.stringify(addToCartBody)
     };
 
-    return fetch(`${process.env.REACT_APP_DEFAULT_API_URL}/add`, requestOptions)
+    return fetch(`${process.env.REACT_APP_DEFAULT_API_URL}/cart/add`, requestOptions)
         .then(handleResponse);
 }
 

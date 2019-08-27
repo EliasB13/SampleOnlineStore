@@ -1,0 +1,7 @@
+.cart-icon {
+	stroke: black;
+}
+
+.cart-icon:hover {
+	stroke: gray;
+}

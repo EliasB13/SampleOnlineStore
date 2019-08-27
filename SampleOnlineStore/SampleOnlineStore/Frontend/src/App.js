@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Route } from 'react-router';
 import { connect } from 'react-redux';
-import { Home } from './components/products/Home';
+import { Catalog } from './components/products/Catalog';
 import { Cart } from './components/cart/Cart.js';
 import { Container } from 'reactstrap';
 import { NavMenu } from './components/navMenu/NavMenu';
@@ -10,6 +10,7 @@ import { RegisterPage } from './components/register/RegisterPage.js';
 import { history } from './helpers';
 import { alertActions } from './actions';
 import { PrivateRoute } from './helpers/privateRoute';
+import { ProductPage } from './components/products/ProductPage';
 
 class App extends Component {
     static displayName = App.name;
@@ -36,9 +37,10 @@ class App extends Component {
                                 <div className={`alert ${alert.type}`}>{alert.message}</div>
                             }
                         </div>
-                        <Route exact path='/' component={Home} />
+                        <Route exact path='/' component={Catalog} />
                         <Route path='/login' component={LoginPage} />
                         <Route path='/register' component={RegisterPage} />
+                        <Route path='/product/:id' component={ProductPage} />
                         <PrivateRoute path='/cart' component={Cart} />
                     </Container>
                 </div>
