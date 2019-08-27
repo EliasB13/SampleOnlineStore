@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { ProductList } from './ProductsList';
 import { Spinner, Label } from 'reactstrap';
 import Select from 'react-select';
+import { Pagination } from '../../helpers/pagination'
+import './Product.css'
 
 class Catalog extends Component {
     static displayName = Catalog.name;
@@ -11,33 +13,45 @@ class Catalog extends Component {
     constructor(props) {
         super(props);
 
-        this.props.getAll(1, 10);
-
         this.state = {
             productsPage: {},
-            isLoadingProducts: false,
-            isLoadedProducts: false,
             selectedPlatformFilter: -1,
             selectedProductTypeFilter: -1,
+            selectedPage: 1,
+            pageSize: 2
         }
+
+        this.props.getAll(this.state.selectedPage, this.state.pageSize);
         
         this.handlePlatformChange = this.handlePlatformChange.bind(this);
         this.handleProductTypeChange = this.handleProductTypeChange.bind(this);
         this.refreshProductsList = this.refreshProductsList.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
+        this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
     }
 
     handlePlatformChange(e) {
-        this.setState({ selectedPlatformFilter: e.value }, () => this.refreshProductsList());
+        this.setState({ selectedPlatformFilter: e.value }, () => this.refreshProductsList(this.state.selectedPage, this.state.pageSize));
     }
 
     handleProductTypeChange(e) {
-        this.setState({ selectedProductTypeFilter: e.value }, () => this.refreshProductsList());
+        this.setState({ selectedProductTypeFilter: e.value }, () => this.refreshProductsList(this.state.selectedPage, this.state.pageSize));
     }
 
-    refreshProductsList() {
+    handlePageSizeChange(e) {
+        this.setState({ pageSize: e.value, selectedPage: 1 }, () => this.refreshProductsList(this.state.selectedPage, this.state.pageSize));
+    }
+
+    handlePageClick(data) {
+        this.setState({ selectedPage: data }, () => {
+            this.refreshProductsList(this.state.selectedPage, this.state.pageSize);
+        });
+    }
+
+    refreshProductsList(page, size) {
             this.props.getAll(
-                1, 
-                10, 
+                page, 
+                size, 
                 this.state.selectedPlatformFilter !== -1 ? this.state.selectedPlatformFilter : null, 
                 this.state.selectedProductTypeFilter !== -1 ? this.state.selectedProductTypeFilter : null);
     }
@@ -66,22 +80,21 @@ class Catalog extends Component {
         return types
     }
 
+    getPageSizeOptions() {
+        return [ 
+            { value: 2, label: '2' }, 
+            { value: 5, label: '5' }, 
+            { value: 10, label: '10' } 
+        ];
+    }
+
     render() {
-        const { productsPage } = this.props;
-        const { isLoadingProducts } = this.props;
-        const { isLoadedProducts } = this.props;
+        const { productsPage, isLoadingProducts, isLoadedProducts } = this.props;
         const platformOptions = isLoadedProducts ? this.getPlatformsOptions(productsPage) : [];
         const productTypeOptions = isLoadedProducts ? this.getProductTypesOptions(productsPage) : [];
 
         return (
-            <div className="home mt-5">
-                <div className="row">
-                    <div className="col-12">
-                        <h2 className="mb-3">Products</h2>
-                    </div>
-                </div>
-                <hr />
-
+            <div className="home">
                 <div className="row">
                     <div className="col-3">
                         <Label for="platforms">Platforms</Label>
@@ -99,7 +112,27 @@ class Catalog extends Component {
                         <div className="row justify-content-center">
                             <Spinner color="dark" />
                         </div> : 
-                        <ProductList products={isLoadedProducts ? productsPage.productsPageItems : []} /> 
+                            isLoadedProducts && productsPage.productsPageItems.length > 0 ?
+                                <React.Fragment>
+                                    <ProductList products={productsPage.productsPageItems} />
+                                    <div className="clearfix">
+                                        <div className="float-left" style={{ width: '10%' }}>
+                                            <Select 
+                                                options={this.getPageSizeOptions()} 
+                                                onChange={this.handlePageSizeChange} 
+                                                defaultValue={ { value: this.state.pageSize, label: this.state.pageSize } }/>
+                                        </div>
+                                        <div className="float-left" style={{ marginTop: '0.5em', marginLeft: '1em' }}>
+                                            <strong>Total items: {productsPage.paginationInfo.totalItems}</strong>
+                                        </div>
+                                        <div className="float-right">
+                                            <Pagination
+                                                pageCount={productsPage.paginationInfo.totalPages} 
+                                                selectedPage={this.state.selectedPage}
+                                                onClick={this.handlePageClick} />
+                                        </div>
+                                    </div>
+                                </React.Fragment> : <h4>No results match your query</h4>
                 }
             </div>
         );
