@@ -31,7 +31,7 @@ export function cart(state = { isLoading: false, isLoaded: false }, action) {
             };
 
         case cartConstants.REMOVE_ITEM_REQUEST:
-            return { 
+            return {
                 orderLineId: action.orderLineId,
                 isLoading: true,
                 isLoaded: false
@@ -42,14 +42,14 @@ export function cart(state = { isLoading: false, isLoaded: false }, action) {
                 isLoading: true
             };
         case cartConstants.REMOVE_ITEM_FAILURE:
-            return { 
+            return {
                 error: action.error,
                 isLoaded: false,
                 isLoading: true
             };
 
         case cartConstants.UPDATE_QUANTITY_REQUEST:
-            return { 
+            return {
                 orderLineId: action.orderLineId,
                 quantity: action.quantity,
                 isLoading: true,
@@ -61,11 +61,27 @@ export function cart(state = { isLoading: false, isLoaded: false }, action) {
                 isLoaded: true
             };
         case cartConstants.UPDATE_QUANTITY_FAILURE:
-            return { 
+            return {
                 error: action.error,
                 isLoading: false,
                 isLoaded: false
             };
+
+        case cartConstants.ORDER_CHECKOUT_REQUEST:
+            return {
+                isLoading: true,
+                isLoaded: false
+            }
+        case cartConstants.ORDER_CHECKOUT_SUCCESS:
+            return {
+                isLoading: true,
+                isLoaded: true
+            }
+        case cartConstants.ORDER_CHECKOUT_FAILURE:
+            return {
+                isLoading: false,
+                isLoaded: false
+            }
 
         default:
             return state;

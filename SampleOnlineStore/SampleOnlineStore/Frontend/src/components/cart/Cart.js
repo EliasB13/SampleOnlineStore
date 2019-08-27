@@ -18,6 +18,12 @@ class Cart extends Component {
             isCartContentLoading: false,
             isCartContentLoaded: false
         }
+
+        this.handleCheckoutClick = this.handleCheckoutClick.bind(this);
+    }
+
+    handleCheckoutClick() {
+        this.props.orderCheckout();
     }
 
     renderCartContent(cart) {
@@ -35,7 +41,7 @@ class Cart extends Component {
                         <div className="p-4 clearfix rounded" style={{ backgroundColor: '#e3f2fd' }}>
                             <span className="float-left mb-2">Total:</span>
                             <span className="float-right mb-2">${ cart.total }</span>
-                            <Button className="btn btn-block btn-warning" style={{ display: 'inline-block' }}>Checkout</Button>
+                            <Button className="btn btn-block btn-warning" style={{ display: 'inline-block' }} onClick={ this.handleCheckoutClick }>Checkout</Button>
                         </div>
                     </div>
                 </div>
@@ -73,8 +79,7 @@ function mapState(state) {
 
 const actionCreators = {
     getCartContent: cartActions.getCartContent,
-    removeItem: cartActions.removeItem,
-    updateQuantity: cartActions.updateQuantity
+    orderCheckout: cartActions.orderCheckout
 };
 
 const connectedCart = connect(mapState, actionCreators)(Cart);

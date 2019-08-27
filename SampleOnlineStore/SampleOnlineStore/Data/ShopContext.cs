@@ -18,6 +18,8 @@ namespace SampleOnlineStore.Data
 		{
 			modelBuilder.Entity<ProductType>().HasMany(pt => pt.Products).WithOne(p => p.ProductType);
 			modelBuilder.Entity<Platform>().HasMany(plt => plt.Products).WithOne(p => p.Platform);
+			modelBuilder.Entity<OrderLine>().HasOne(ol => ol.Order).WithMany(o => o.OrderLines).OnDelete(DeleteBehavior.Cascade);
+
 
 			modelBuilder.Entity<ProductType>().HasData(
 				new List<ProductType>()

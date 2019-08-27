@@ -12,5 +12,6 @@ namespace SampleOnlineStore.Services.Order
 		Task<OrderDto> GetOrderItemsAsync(int userId);
 		Task DeleteOrderLine(int orderLineId);
 		Task UpdateQuantity(int orderLineId, int quantity);
+		Task OrderCheckout(int userId);
 	}
 }

@@ -49,5 +49,12 @@ namespace SampleOnlineStore.Controllers
 			var order = await _orderService.GetOrderItemsAsync(userId);
 			return Ok(order);
 		}
+
+		[HttpPost("checkout")]
+		public async Task OrderCheckout()
+		{
+			int userId = int.Parse(User.FindFirstValue(ClaimTypes.Name));
+			await _orderService.OrderCheckout(userId);
+		}
     }
 }

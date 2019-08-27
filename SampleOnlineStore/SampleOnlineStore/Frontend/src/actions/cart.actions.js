@@ -6,7 +6,8 @@ export const cartActions = {
     getCartContent,
     addToCart,
     removeItem,
-    updateQuantity
+    updateQuantity,
+    orderCheckout
 }
 
 function getCartContent() {
@@ -89,4 +90,26 @@ function updateQuantity(orderLineId, quantity) {
     function request(orderLineId, quantity) { return { type: cartConstants.UPDATE_QUANTITY_REQUEST, orderLineId, quantity } }
     function success() { return { type: cartConstants.UPDATE_QUANTITY_SUCCESS } }
     function failure(error) { return { type: cartConstants.UPDATE_QUANTITY_FAILURE, error } }
+}
+
+function orderCheckout() {
+    return dispatch => {
+        dispatch(request());
+
+        cartService.orderCheckout()
+            .then(
+                () => {
+                    dispatch(success());
+                    dispatch(cartActions.getCartContent());
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            )
+    }
+
+    function request() { return { type: cartConstants.ORDER_CHECKOUT_REQUEST } }
+    function success() { return { type: cartConstants.ORDER_CHECKOUT_SUCCESS } }
+    function failure(error) { return { type: cartConstants.ORDER_CHECKOUT_FAILURE, error } }
 }

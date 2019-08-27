@@ -107,5 +107,17 @@ namespace SampleOnlineStore.Services.Order
 
 			return order;
 		}
+
+		public async Task OrderCheckout(int userId)
+		{
+			var orders = await _orderRepository.GetListAsync(o => o.ShopUserId == userId && o.IsCheckedOut == false, o => o.OrderLines);
+			if (orders.Count() > 0)
+			{
+				var order = orders.Single();
+				order.IsCheckedOut = true;
+				order.OrderDate = DateTime.Now;
+				await _orderRepository.UpdateAsync(order);
+			}
+		}
 	}
 }

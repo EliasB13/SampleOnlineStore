@@ -4,7 +4,8 @@ export const cartService = {
     getCartContent,
     addToCart,
     removeItem,
-    updateQuantity
+    updateQuantity,
+    orderCheckout
 };
 
 function getCartContent() {
@@ -46,6 +47,16 @@ function updateQuantity(orderLineId, quantity) {
     };
 
     return fetch(`${process.env.REACT_APP_DEFAULT_API_URL}/cart/${orderLineId}/${quantity}`, requestOptions)
+        .then(handleResponse);
+}
+
+function orderCheckout() {
+    const requestOptions = { 
+        method: 'POST',
+        headers: authHeader()
+    };
+
+    return fetch(`${process.env.REACT_APP_DEFAULT_API_URL}/cart/checkout`, requestOptions)
         .then(handleResponse);
 }
 
