@@ -3,7 +3,6 @@ export const productsService = {
 };
 
 function getAll(page, size, platformId, productTypeId) {
-    debugger
     let url = `${process.env.REACT_APP_DEFAULT_API_URL}/products?currentPage=${page}&pageSize=${size}`;
     if (platformId)
         url += `&platformFilter=${platformId}`;

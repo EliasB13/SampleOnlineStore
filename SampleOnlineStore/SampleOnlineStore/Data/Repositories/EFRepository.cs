@@ -52,5 +52,10 @@ namespace SampleOnlineStore.Data.Repositories
 		{
 			return await _dbSet.Where(predicate).Include(includeExpression).ToListAsync();
 		}
+
+		public async Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate)
+		{
+			return await _dbSet.Where(predicate).ToListAsync();
+		}
 	}
 }

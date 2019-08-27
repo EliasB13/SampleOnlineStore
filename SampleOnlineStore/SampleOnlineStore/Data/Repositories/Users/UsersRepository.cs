@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SampleOnlineStore.Data.Repositories
+namespace SampleOnlineStore.Data.Repositories.Users
 {
 	public class UsersRepository : EfRepository<ShopUser>, IUsersRepository
 	{

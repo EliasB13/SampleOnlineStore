@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace SampleOnlineStore.Data.Repositories
+namespace SampleOnlineStore.Data.Repositories.Products
 {
 	public class ProductsRepository : EfRepository<Product>, IProductsRepository
 	{

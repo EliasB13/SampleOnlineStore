@@ -5,7 +5,13 @@ export function loadingProducts(state = { isLoaded: false }, action) {
         case productsConstants.GET_PRODUCTS_REQUEST:
             return { 
                 isLoading: true,
-                isLoaded: false
+                isLoaded: false,
+                parameters: {
+                    page: action.page,
+                    size: action.size,
+                    platformId: action.platformId,
+                    productTypeId: action.productTypeId
+                }
             };
         case productsConstants.GET_PRODUCTS_SUCCESS:
             return { 

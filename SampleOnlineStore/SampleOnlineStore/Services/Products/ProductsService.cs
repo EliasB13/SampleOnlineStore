@@ -1,4 +1,5 @@
 ﻿using SampleOnlineStore.Data.Repositories;
+using SampleOnlineStore.Data.Repositories.Products;
 using SampleOnlineStore.Dtos;
 using SampleOnlineStore.Entities;
 using System;

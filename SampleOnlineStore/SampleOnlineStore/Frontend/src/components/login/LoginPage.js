@@ -46,7 +46,7 @@ class LoginPage extends Component {
         return (
             <div className="row justify-content-center">
                 <div className="col-10 col-sm-7 col-md-5 col-lg-4">
-                    <h4>Use a local account to log in.</h4>
+                    <h4>Sign in</h4>
                     <hr />
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>

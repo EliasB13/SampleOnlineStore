@@ -13,5 +13,7 @@ namespace SampleOnlineStore.Dtos.Order
 		public decimal ProductPrice { get; set; }
 		public int Quantity { get; set; }
 		public string ImageUrl { get; set; }
+		public string Platform { get; set; }
+		public string ProductType { get; set; }
 	}
 }

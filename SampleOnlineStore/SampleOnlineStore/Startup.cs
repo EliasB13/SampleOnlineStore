@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SampleOnlineStore.Data;
 using SampleOnlineStore.Data.Repositories;
+using SampleOnlineStore.Data.Repositories.OrderLines;
+using SampleOnlineStore.Data.Repositories.Products;
+using SampleOnlineStore.Data.Repositories.Users;
 using SampleOnlineStore.Helpers;
 using SampleOnlineStore.Services.Order;
 using SampleOnlineStore.Services.Products;
@@ -38,6 +41,7 @@ namespace SampleOnlineStore
 			services.AddScoped<IOrderService, OrderService>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IUsersRepository, UsersRepository>();
+			services.AddScoped<IOrderLinesRepository, OrderLinesRepository>();
 
 			services.AddDbContext<ShopContext>(options =>
 				options.UseSqlServer(

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SampleOnlineStore.Data.Repositories;
+using SampleOnlineStore.Data.Repositories.OrderLines;
+using SampleOnlineStore.Data.Repositories.Products;
 using SampleOnlineStore.Dtos.Order;
 using SampleOnlineStore.Entities;
 
@@ -11,12 +13,13 @@ namespace SampleOnlineStore.Services.Order
 	public class OrderService : IOrderService
 	{
 		private readonly IAsyncRepository<Entities.Order> _orderRepository;
-		private readonly IAsyncRepository<OrderLine> _orderLinesRepository;
+		private readonly IOrderLinesRepository _orderLinesRepository;
 
-		public OrderService(IAsyncRepository<Entities.Order> orderRepository, IAsyncRepository<OrderLine> orderLineRepository)
+		public OrderService(IAsyncRepository<Entities.Order> orderRepository,
+			IOrderLinesRepository orderLinesRepository)
 		{
 			_orderRepository = orderRepository;
-			_orderLinesRepository = orderLineRepository;
+			_orderLinesRepository = orderLinesRepository;
 		}
 
 		public async Task AddItemToOrder(int userId, int productId, int quantity = 1)
@@ -50,7 +53,7 @@ namespace SampleOnlineStore.Services.Order
 
 		public async Task<OrderDto> GetOrderItemsAsync(int userId)
 		{
-			var orders = await _orderRepository.GetListAsync(o => o.ShopUserId == userId && o.IsCheckedOut == false, o => o.OrderLines);
+			var orders = await _orderRepository.GetListAsync(o => o.ShopUserId == userId && o.IsCheckedOut == false);
 			if (orders.Count == 0)
 			{
 				var order = CreateOrderByUserId(userId);
@@ -61,7 +64,7 @@ namespace SampleOnlineStore.Services.Order
 			}
 			else
 			{
-				var orderLines = await _orderLinesRepository.GetListAsync(ol => ol.OrderId == orders.Single().Id, ol => ol.Product);
+				var orderLines = await _orderLinesRepository.GetOrderLinesByOrderAsync(orders.Single().Id);
 				return new OrderDto()
 				{
 					OrderItems = orderLines.Select(o => new OrderItemDto()
@@ -69,9 +72,11 @@ namespace SampleOnlineStore.Services.Order
 						Id = o.Id,
 						ProductId = o.ProductId,
 						Quantity = o.Quantity,
-						ImageUrl = ("/img/productsCovers/" + o.Product.ImageUrl),
+						ImageUrl = o.Product.ImageUrl,
 						ProductName = o.Product.Name,
-						ProductPrice = o.Product.Price
+						ProductPrice = o.Product.Price,
+						Platform = o.Product.Platform.Name,
+						ProductType = o.Product.ProductType.Name
 					}).ToList()
 				};
 			}
