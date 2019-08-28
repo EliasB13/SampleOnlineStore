@@ -45,8 +45,8 @@ class App extends Component {
                         <PrivateRoute path='/cart' component={Cart} />
                     </Container>
 
-                    <footer class="border-top footer text-muted">
-                        <div class="container">
+                    <footer className="border-top footer text-muted">
+                        <div className="container">
                             &copy; 2019 - SampleOnlineStore - Made by EliasB
                         </div>
                     </footer>
